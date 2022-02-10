@@ -1,3 +1,4 @@
 fastapi
-sqlalchemy
-beautifulsoup4
+uvicorn
+mysql-connector-python
+requests
