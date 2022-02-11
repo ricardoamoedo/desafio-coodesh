@@ -88,3 +88,22 @@ publishedAt:str, launches:str, events:str):
     db_.commit()
 
     return {"status": 200, "Message": "new article is post!"}
+
+
+
+
+@app.delete("/articles/{id_articles}")
+def del_articles_id(id_articles: int):
+    query = "SELECT * FROM articles WHERE db_id = " +  str(id_articles)
+    cursor_.execute(query)
+    search = cursor_.fetchall()
+    
+    if search == []:
+        return {"status": 404, "Message": "not found!"}
+    
+    query = "DELETE FROM articles WHERE db_id = " +  str(id_articles)
+    cursor_.execute(query)
+
+    db_.commit()
+
+    return {"status": 200, "Message": "article is deleted!"}
