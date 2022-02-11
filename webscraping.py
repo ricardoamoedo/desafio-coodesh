@@ -1,4 +1,5 @@
-from config.db import open_db, create_article
+import config.db
+from config.db import create_article
 import requests
 import mysql.connector
 from sqlalchemy import create_engine
