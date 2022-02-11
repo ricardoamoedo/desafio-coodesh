@@ -68,8 +68,7 @@ publishedAt:str, launches:str, events:str):
     query = "SELECT db_id FROM articles WHERE db_id = " +  str(id_articles)
     cursor_.execute(query)
     search_id = cursor_.fetchall()
-    if (search_id != []):
-        list_id = search_id[0]
+    if (search_id == []):
         lista.append(str(featured))
         lista.append(title)
         lista.append(url)
@@ -80,6 +79,12 @@ publishedAt:str, launches:str, events:str):
         lista.append(launches)
         lista.append(events)
     else:
-        return {"Status": 404}
-        
+       
+        return {"status": 404, "Message": "id already exist"}
+
+    query = "INSERT INTO articles (db_id, db_featured, db_title, db_url, db_imageUrl, db_newsSite, db_summary, db_publishedAt, db_launches, db_events) VALUES (?,?,?,?,?,?,?,?,?,?)"
+    cursor_.execute(query, lista)
+
+    db_.commit()
+
     return {"status": 200, "Message": "new article is post!"}
