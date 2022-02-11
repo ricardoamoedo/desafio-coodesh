@@ -2,6 +2,7 @@ import config.db
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 import mysql.connector
+from pydantic import BaseModel
 
 
 
@@ -17,6 +18,8 @@ db_ = mysql.connector.connect(
 
 cursor_ = db_.cursor(prepared=True)
 
+
+
 @app.get("/")
 def raiz():
     return {"status": 200, "Message": "Back-end Challenge 2021 🏅 - Space Flight News"}
@@ -25,7 +28,6 @@ def raiz():
 
 @app.get("/articles")
 def get_articles():
-    
 
     cursor_.execute("SELECT * FROM articles")
     new = cursor_.fetchall()
@@ -35,13 +37,15 @@ def get_articles():
         lista.append('id: '+ str(article_[0]))
         lista.append('feacture: '+ str(bool(article_[1])))
         lista.append('title: '+ str(article_[2]))
-        lista.append('imageUrl: '+ str(article_[3]))
-        lista.append('newsSite: '+ str(article_[4]))
-        lista.append('summary: '+ str(article_[5]))
-        lista.append('publishedAt: '+ str(article_[6]))
-        lista.append('launches: '+ str(article_[7]))
-        lista.append('events: '+ str(article_[8]))
+        lista.append('url: '+ str(article_[3]))
+        lista.append('imageUrl: '+ str(article_[4]))
+        lista.append('newsSite: '+ str(article_[5]))
+        lista.append('summary: '+ str(article_[6]))
+        lista.append('publishedAt: '+ str(article_[7]))
+        lista.append('launches: '+ str(article_[8]))
+        lista.append('events: '+ str(article_[9]))
     articles_ = tuple(lista)
+    
     return jsonable_encoder(articles_)
 
 
@@ -50,12 +54,12 @@ def get_articles():
 
 @app.get("/articles/{id_articles}")
 def get_articles_id(id_articles: int):
+    
     query = "SELECT * FROM articles WHERE db_id = " +  str(id_articles)
     cursor_.execute(query)
     search = cursor_.fetchall()
-    if search ==[]:
-        return {"status": 404, "Message": "not found!"}
     articles_= search[0]
+    
     return jsonable_encoder(articles_)
 
 
@@ -65,23 +69,14 @@ def post_articles_id(id_articles: int,featured: bool, title:str, url:str, imageU
 publishedAt:str, launches:str, events:str):
     lista = []
     lista.append(str(id_articles))
-    query = "SELECT db_id FROM articles WHERE db_id = " +  str(id_articles)
-    cursor_.execute(query)
-    search_id = cursor_.fetchall()
-    if (search_id == []):
-        lista.append(str(featured))
-        lista.append(title)
-        lista.append(url)
-        lista.append(imageUrl)
-        lista.append(newsSite)
-        lista.append(summary)
-        lista.append(publishedAt)
-        lista.append(launches)
-        lista.append(events)
-    else:
-       
-        return {"status": 404, "Message": "id already exist"}
-
+    lista.append(str(featured))
+    lista.append(title)
+    lista.append(url)
+    lista.append(imageUrl)
+    lista.append(newsSite)
+    lista.append(summary)
+    lista.append(publishedAt)
+    lista.append(launches)
     query = "INSERT INTO articles (db_id, db_featured, db_title, db_url, db_imageUrl, db_newsSite, db_summary, db_publishedAt, db_launches, db_events) VALUES (?,?,?,?,?,?,?,?,?,?)"
     cursor_.execute(query, lista)
 
@@ -94,16 +89,23 @@ publishedAt:str, launches:str, events:str):
 
 @app.delete("/articles/{id_articles}")
 def del_articles_id(id_articles: int):
-    query = "SELECT * FROM articles WHERE db_id = " +  str(id_articles)
-    cursor_.execute(query)
-    search = cursor_.fetchall()
-    
-    if search == []:
-        return {"status": 404, "Message": "not found!"}
     
     query = "DELETE FROM articles WHERE db_id = " +  str(id_articles)
+    cursor_.execute(query)
+    db_.commit()
+
+    return {"status": 200, "Message": "article is deleted!"}
+
+
+
+
+@app.put("/articles/{id_articles}")
+def put_articles_id(id_articles: int):
+    query = "UPDATE articles SET db_featured = 1 WHERE db_id = " +  str(id_articles)
     cursor_.execute(query)
 
     db_.commit()
 
-    return {"status": 200, "Message": "article is deleted!"}
+    return {"status": 200, "Message": "article is updated!"}
+
+
