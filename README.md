@@ -39,15 +39,7 @@ Este projeto oferece uma solução do desafio proposto pela Coodesh (challenge b
 4. Instalando frameworks e bibliotecas:
 
   
-	- pip install Flask
-
-	- pip install uvicorn
-
-	- pip install mysql-connector-python
-
-	- pip install python-sqlalchemy
-
-	- pip install requests
+	- pip install -r requirements.txt
   
 5. Executando o Uvicorn
 
