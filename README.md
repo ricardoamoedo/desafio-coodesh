@@ -62,4 +62,4 @@ Este projeto oferece uma solução do desafio proposto pela Coodesh (challenge b
 	- no browser digite: <localhost:8000>    para acessar o uvicorn
 8. Vídeo de apresentação do projeto
 
-	- link: 
+	- link: https://www.loom.com/share/174a0dff5f98484cb9aaab6c516585c8
