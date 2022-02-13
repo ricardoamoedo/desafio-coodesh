@@ -50,11 +50,16 @@ Este projeto oferece uma solução do desafio proposto pela Coodesh (challenge b
 
 	- mova a pasta “cron” e seu conteúdo para a sua pasta de usuário.
 
- 
 	- no terminal, abra o crontab com o seguinte comando: “crontab -e” e adicione na última linha a seguinte expressão “0 9 * * * python /_home_/{usuário}/cron/cronUpdate.py”. Para adicionar a expressão é necessário primeiramente teclar “i” de inserir, e após adicionada a expressão pressione a tecla shift + a tecla : e digite wq seguido de enter.
 
     **OBS: Não esqueça de mudar o nome {usuário} para o seu nome de usuário do computador.**
 
-## Vídeo de apresentação do projeto
+
+7. Rodando um contêiner DOCKER
+
+	- no terminal digite: <docker-compose up -d>    para criar a imagem a partir dos arquivos.
+	
+	- no browser digite: <localhost:8000>    para acessar o uvicorn
+8. Vídeo de apresentação do projeto
 
 	- link: 
